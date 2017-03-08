@@ -5,7 +5,7 @@ library("matrixcalc")
 
 args = commandArgs(TRUE) # R CMD BATCH --no-save --no-restore "--arg in1 in2" Rcode Rcode.out
 
-filein = args[1] ## need the "/" at end 
+filein = args[1] 
 fileoutName = args[2]
 numOfChunks = as.numeric(args[3]) ## to estimate the matrix U_vg, we devide the snps into 10 sets. If snp x is in setY, then we remove setY and use the other 9 sets. 
 
