@@ -4,11 +4,13 @@ Meta analysis using explicit covariance matrix
 
 This meta-analysis depends on the existing random effects (RE) meta-analysis. Instead of using the tradional identity matrix, it uses a covariance matrix to model the fact that the same SNP can affect the same gene in similar tissues. 
 
-Download the code. ```
+Download the code. 
+```
 fitLlh1Gene4github.R 
 ```
 
-Download an example input. ```
+Download an example input. 
+```
 ENSG00000196549.6.beta.txt 
 ```
 Here is an example to run the code 
