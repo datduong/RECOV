@@ -13,6 +13,8 @@ Download an example input.
 ```
 ENSG00000196549.6.beta.txt 
 ```
+There are 44 tissues in the input. The first column is the snp name. The second column is the SNP effect in tissue 1, and the third column is the variance of this SNP effect in tissue 1. The fourth SNP effect in tissue 2, and the fifth column is the variance of this SNP effect in tissue 2, and so forth. 
+
 Here is an example to run the code 
 
 ```
