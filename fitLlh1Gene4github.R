@@ -96,9 +96,6 @@ getCovRE2 = function ( sig1 ) {
 getLikelihoodFE = function (input,X) { ## get the log likelihood of the data (either L0 or L1)
 	mu = input[1] ## do this for optim function 
 	Cov = D 
-	# term1 = -numSample*log(2*pi)/2 + -log(det(Cov))/2 
-	# term2 =  -1/2*(X-mu)%*%solve(Cov)%*%(X-mu)
-	# return (-1*(term1 + term2)) # return the log version. NEGATIVE TO USE OPTIM FUNC. 
 	k = dmvnorm( x=X, mean=rep(mu, num_tissue), sigma=Cov ) 
 	return ( -1* log(k) ) 
 }
@@ -153,15 +150,8 @@ for (snp_loca in everySnpLoca) {
 	D = diag(sd_beta^2,length(valid_tis)) # diag sampling errors 
 
 	### -------------------------------------------------------
-
-#	cov_tissue = covmatrix
-#	U = cov_tissue[ valid_tis, valid_tis ] # matrix U. cov of the tissues 
-#
-#	eigenU = eigen(U) ## project onto the positive definite space that is nearest to U 
-#	eigenval = eigenU$values
-#	eigenval [eigenval<0]= 0 
-#	U = eigenU$vectors %*% diag(eigenval) %*% t(eigenU$vectors) ## new U
-
+	
+	## matrix U_vg
         U = getGRM4aSnp ( snp_loca, LDcross )
         U = U[ valid_tis, valid_tis ] # matrix U. cov of the tissues
         U = (U + t(U)) / 2 ## symmetric
@@ -177,7 +167,6 @@ for (snp_loca in everySnpLoca) {
 	### -------------------------------------------------------
 
 	##!! fit model y = b + e , b ~ N( mean, const U )
-
 	num_tissue = ncol(D) 
 	numSample = num_tissue 
 
@@ -185,7 +174,6 @@ for (snp_loca in everySnpLoca) {
 	nul_val = log ( dnorm( beta, 0, sd=sd_beta ) )
 	nul_val [ nul_val == -Inf ] = min ( nul_val[nul_val!=-Inf] )
 	nul_val = sum(nul_val) ## avoid NA in the null 
-	
 	
 	## do optim 
 	ui = matrix( c(1,0,-1,0,0,1), ncol= 2, byrow=T ) ## constraint 
@@ -239,7 +227,6 @@ for (snp_loca in everySnpLoca) {
 	}
 	writeout = c(writeout, obs_pvalR2, alt_val, muc, varc ) 
 	
-	
 	### -------------------------------------------------------
 	### -------------------------------------------------------
 	
@@ -253,23 +240,8 @@ for (snp_loca in everySnpLoca) {
 	likelihoodOutPut = rbind (likelihoodOutPut,writeout) 
 }
 
-top = rep(min_pval,length(writeout))
-## 2nd best
-second_top = which ( likelihoodOutPut [,2] > min_pval )
-second_top = likelihoodOutPut[ second_top, 2 ] ## 2nd top min pval
-second_top = min (second_top)
-top [ length(writeout) ] = second_top
-
-## !!!
-topRE2 = rep (min_pvalRE2,length(writeout))
-second_top = which ( likelihoodOutPut [,7] > min_pvalRE2 )
-second_top = likelihoodOutPut[ second_top, 7 ] ## 2nd top min pval
-second_top = min (second_top)
-topRE2 [ length(writeout) ] = second_top
-
-## !!! 
-top = rbind(top,topRE2)
-likelihoodOutPut = rbind (top,likelihoodOutPut)
+print (paste0("min pval for likelihood ratio RECOV", min_pval,"\n"))
+print (paste0("min pval for likelihood ratio RE2", min_pvalRE2,"\n"))
 
 colnames(likelihoodOutPut) = c("snp", "obs_pval", "nulLlh", "altLlh", 'mu', 'varconstant', "obs_pvalRE2", "altLlhRE2", 'muRE2', 'varconstantRE2 '  ) 
 write.csv(likelihoodOutPut,row.names=F,quote=F,file=fileoutName)
