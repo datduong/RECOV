@@ -240,8 +240,8 @@ for (snp_loca in everySnpLoca) {
 	likelihoodOutPut = rbind (likelihoodOutPut,writeout) 
 }
 
-print (paste0("min pval for likelihood ratio RECOV", min_pval,"\n"))
-print (paste0("min pval for likelihood ratio RE2", min_pvalRE2,"\n"))
+print (paste0("min pval for likelihood ratio RECOV ", min_pval,"\n"))
+print (paste0("min pval for likelihood ratio RE2 ", min_pvalRE2,"\n"))
 
 colnames(likelihoodOutPut) = c("snp", "obs_pval", "nulLlh", "altLlh", 'mu', 'varconstant', "obs_pvalRE2", "altLlhRE2", 'muRE2', 'varconstantRE2 '  ) 
 write.csv(likelihoodOutPut,row.names=F,quote=F,file=fileoutName)
