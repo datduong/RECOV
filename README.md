@@ -1,8 +1,8 @@
 # RECOV
-Meta analysis using explicit covariance matrix
+Meta analysis using explicit covariance matrix>
 
 
-This meta-analysis depends on the existing random effects (RE) meta-analysis. Instead of using the tradional identity matrix, it uses a covariance matrix to model the fact that the same SNP can affect the same gene in similar tissues. 
+This meta-analysis depends on the traditional random effects (RE) meta-analysis. But, instead of using the tradional identity matrix, it uses a covariance matrix to model the fact that the same SNP can affect the same gene in similar tissues. 
 
 Download the code. 
 ```
@@ -22,3 +22,4 @@ R CMD BATCH --no-save --no-restore "--args /u/home/d/datduong/ENSG00000196549.6.
 ```
 
 The entry "10" in the args above splits the SNPs into 10 segments. When fitting the likelihood at a SNP in segment 1, we use the SNPs in the other 9 segments to estimate a rough form of the covariance in the likelihood. 
+
