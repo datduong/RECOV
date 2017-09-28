@@ -2,7 +2,7 @@
 Meta analysis using explicit covariance matrix>
 
 
-This meta-analysis depends on the traditional random effects (RE) meta-analysis. But, instead of using the tradional identity matrix, it uses a covariance matrix to model the fact that the same SNP can affect the same gene in similar tissues. 
+This meta-analysis depends on the traditional random effects (RE) meta-analysis. But, instead of using the traditional identity matrix, it uses a covariance matrix to model the fact that the same SNP can affect the same gene in similar tissues. 
 
 Download the code. 
 ```
